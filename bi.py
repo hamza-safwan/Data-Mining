@@ -1,7 +1,7 @@
 import pandas as pd
 from sqlalchemy import create_engine
 
-# Define the database connection string and the output file path
+# Define the database connection string and the output file_path
 database_connection_string = 'postgresql://username:password@localhost:5432/mydatabase'
 output_file_path = 'bi_report.csv'
 
