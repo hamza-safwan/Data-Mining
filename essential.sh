@@ -1,7 +1,7 @@
 #!/bin/bash
 
 # Set variables
-DATA_URL="https://example.com/books"
+DATA_URL="https://bravo.com/books"
 OUTPUT_DIR="./output"
 RAW_DATA_FILE="$OUTPUT_DIR/raw_data.html"
 PROCESSED_DATA_FILE="$OUTPUT_DIR/processed_data.csv"
