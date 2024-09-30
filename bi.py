@@ -2,11 +2,11 @@ import pandas as pd
 from sqlalchemy import create_engine
 
 # Define the database connection string and the output file_path
-database_connection_string = 'postgresql://username:password@localhost:5432/mydatabase'
+database_connection_strings = 'postgresql://username:password@localhost:5432/mydatabase'
 output_file_path = 'bi_report.csv'
 
 # Connect to the data warehouse
-engine = create_engine(database_connection_string)
+engine = create_engine(database_connection_strings)
 
 # Query: Fetch the required data
 query = """
