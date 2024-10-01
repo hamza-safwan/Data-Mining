@@ -1,7 +1,7 @@
 /* Importing the data */
 proc import datafile='/path/to/your/datafile.csv' 
     out=work.data 
-    dbms=csv 
+    rdbms=csv 
     replace;
     getnames=yes;
 run;
