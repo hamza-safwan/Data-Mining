@@ -4,7 +4,7 @@ proc import datafile='/path/to/your/datafile.csv'
     rdbms=csv 
     replace;
     getnames=yes;
-run;
+run
 
 /* Viewing the first few rows of the dataset */
 proc print data=work.data (obs=10); 
