@@ -108,27 +108,37 @@ $(document).ready(function () {
                 'paging': true, // Table pagination
                 'ordering': true, // Column ordering
                 'info': true, // Bottom left status text
+                'bLengthChange': false,
+                "iDisplayLength": 10,
                 aaData: response,
                 "aaSorting": [],
+                language: {
+                    search: "",
+                    searchPlaceholder: "Search rooms..."
+                },
                 aoColumns: [
                 {
-                    mData: 'room_no'
+                    mData: 'room_no',
+                    sClass: 'cell-id'
                 },
                 {
                     mData: 'room_type'
                 },
                 {
-                    mData: 'available'
+                    mData: 'available',
+                    sClass: 'cell-center'
                 },
                 {
                     mRender: function (o) {
                         return '<button class="btn-xs btn btn-info btn-edit" type="button">Edit</button>';
-                    }
+                    },
+                    sClass: 'cell-actions'
                 },
                 {
                     mRender: function (o) {
                         return '<button class="btn-xs btn btn-danger delete-btn" type="button">Delete</button>';
-                    }
+                    },
+                    sClass: 'cell-actions'
                 }
                 ]
             });

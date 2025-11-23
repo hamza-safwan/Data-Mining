@@ -1,0 +1,260 @@
+﻿{% extends "base.html" %}
+
+{% block title %}Account profile - MedSync{% endblock %}
+
+{% block head_extra %}
+  <style>
+    .account-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.5fr) minmax(0, 1fr);
+      gap: 18px;
+    }
+
+    .account-avatar {
+      width: 56px;
+      height: 56px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, #10b981, #14b8a6);
+      color: #ecfdf5;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 22px;
+      font-weight: 600;
+      overflow: hidden;
+    }
+
+    .account-avatar img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: inherit;
+    }
+
+    .account-avatar-fallback {
+      font-size: 20px;
+    }
+
+    .account-meta {
+      font-size: 12px;
+      color: #6b7280;
+      margin-top: 4px;
+    }
+
+    .account-grid-two {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .metric-card {
+      border-radius: 14px;
+      background-color: #f9fafb;
+      padding: 10px 12px;
+      font-size: 12px;
+    }
+
+    .metric-label {
+      color: #6b7280;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      font-size: 11px;
+    }
+
+    .metric-value {
+      margin-top: 4px;
+      font-size: 17px;
+      font-weight: 600;
+    }
+
+    .metric-sub {
+      margin-top: 2px;
+      font-size: 11px;
+      color: #6b7280;
+    }
+
+    .alert {
+      margin-bottom: 12px;
+      padding: 9px 11px;
+      border-radius: 10px;
+      font-size: 12px;
+    }
+
+    .alert-success {
+      background-color: #ecfdf5;
+      color: #166534;
+      border: 1px solid #bbf7d0;
+    }
+
+    .alert-error {
+      background-color: #fee2e2;
+      color: #991b1b;
+      border: 1px solid #fecaca;
+    }
+  </style>
+{% endblock %}
+
+{% block content %}
+  <section class="page-header">
+    <div>
+      <h1 class="page-title">Account profile</h1>
+      <p class="page-subtitle">
+        Configure your hospital profile and the maximum resources that can be used inside MedSync.
+      </p>
+    </div>
+  </section>
+
+  {% if message %}
+    <div class="alert alert-success">{{ message }}</div>
+  {% endif %}
+  {% if error %}
+    <div class="alert alert-error">{{ error }}</div>
+  {% endif %}
+
+  <section class="account-layout">
+    <article class="panel">
+      <header class="panel-header">
+        <div>
+          <h2 class="panel-title">Hospital profile</h2>
+          <p class="panel-subtitle">These details power your SaaS account and resource caps.</p>
+        </div>
+      </header>
+
+      <div style="display:flex; gap:12px; align-items:center; margin-bottom:14px;">
+        <div class="account-avatar">
+          {% if profile.profile_image %}
+            <img src="{{ url_for('static', filename=profile.profile_image) }}" alt="Hospital avatar">
+          {% else %}
+            <span class="account-avatar-fallback">
+              {{ (profile.hospital_name or (session.get('user_full_name') or session.get('user_email') or 'H'))[0]|upper }}
+            </span>
+          {% endif %}
+        </div>
+        <div>
+          <div style="font-size:15px; font-weight:600;">
+            {{ profile.hospital_name or 'Your hospital name' }}
+          </div>
+          <div class="account-meta">
+            Linked to account <strong>{{ session.get('user_email') }}</strong>
+          </div>
+        </div>
+      </div>
+
+      <form method="post" enctype="multipart/form-data">
+        <div class="field-group">
+          <label class="field-label" for="hospital_name">Hospital name</label>
+          <input
+            id="hospital_name"
+            name="hospital_name"
+            type="text"
+            class="field-input"
+            value="{{ profile.hospital_name or '' }}"
+            placeholder="e.g. City General Hospital">
+        </div>
+
+        <div class="field-group">
+          <label class="field-label">Resource limits</label>
+          <div class="account-grid-two">
+            <div>
+              <label class="field-label" for="total_doctors">Total doctors</label>
+              <input
+                id="total_doctors"
+                name="total_doctors"
+                type="number"
+                min="0"
+                class="field-input"
+                value="{{ profile.total_doctors if profile.total_doctors is not none else '' }}"
+                placeholder="Leave blank for no limit">
+            </div>
+            <div>
+              <label class="field-label" for="total_departments">Total departments</label>
+              <input
+                id="total_departments"
+                name="total_departments"
+                type="number"
+                min="0"
+                class="field-input"
+                value="{{ profile.total_departments if profile.total_departments is not none else '' }}"
+                placeholder="Leave blank for no limit">
+            </div>
+            <div>
+              <label class="field-label" for="total_beds">Total beds (rooms)</label>
+              <input
+                id="total_beds"
+                name="total_beds"
+                type="number"
+                min="0"
+                class="field-input"
+                value="{{ profile.total_beds if profile.total_beds is not none else '' }}"
+                placeholder="Leave blank for no limit">
+            </div>
+          </div>
+          <p class="account-meta" style="margin-top:6px;">
+            MedSync will prevent creating more doctors, departments or rooms than the totals you set here.
+          </p>
+        </div>
+
+        <div class="field-group">
+          <label class="field-label" for="profile_image">Profile picture</label>
+          <input id="profile_image" name="profile_image" type="file" accept=".png,.jpg,.jpeg,.gif" class="field-input">
+          <p class="account-meta">
+            A square PNG or JPG works best (max a few MB).
+          </p>
+        </div>
+
+        <button type="submit" class="btn-primary">
+          Save profile
+        </button>
+      </form>
+    </article>
+
+    <article class="panel">
+      <header class="panel-header">
+        <div>
+          <h2 class="panel-title">Utilization overview</h2>
+          <p class="panel-subtitle">Live snapshot of how your limits compare to actual usage.</p>
+        </div>
+      </header>
+
+      <div class="account-grid-two">
+        <div class="metric-card">
+          <div class="metric-label">Doctors</div>
+          <div class="metric-value">
+            {{ usage.doctors }}{% if profile.total_doctors %} / {{ profile.total_doctors }}{% endif %}
+          </div>
+          <div class="metric-sub">
+            Registered doctors in this MedSync instance.
+          </div>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-label">Departments</div>
+          <div class="metric-value">
+            {{ usage.departments }}{% if profile.total_departments %} / {{ profile.total_departments }}{% endif %}
+          </div>
+          <div class="metric-sub">
+            Departments configured across all doctors.
+          </div>
+        </div>
+
+        <div class="metric-card">
+          <div class="metric-label">Beds (rooms)</div>
+          <div class="metric-value">
+            {{ usage.beds }}{% if profile.total_beds %} / {{ profile.total_beds }}{% endif %}
+          </div>
+          <div class="metric-sub">
+            Rooms tracked as part of your capacity.
+          </div>
+        </div>
+      </div>
+
+      <p class="account-meta" style="margin-top:10px;">
+        If a limit is left blank, MedSync will not enforce a hard cap for that resource yet.
+      </p>
+    </article>
+  </section>
+{% endblock %}
+
+
+

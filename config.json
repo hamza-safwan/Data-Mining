@@ -1,7 +1,6 @@
 {
   "database": "database.db",
   "port": 5000,
-  "host": "127.0.0.1"
+  "host": "127.0.0.1",
+  "secret_key": "change-this-secret"
 }
-
-#older versions vulnerablities rectified

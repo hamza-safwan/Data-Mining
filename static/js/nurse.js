@@ -108,11 +108,18 @@ $(document).ready(function () {
                 'paging': true, // Table pagination
                 'ordering': true, // Column ordering
                 'info': true, // Bottom left status text
+                'bLengthChange': false,
+                "iDisplayLength": 10,
                 aaData: response,
                 "aaSorting": [],
+                language: {
+                    search: "",
+                    searchPlaceholder: "Search nurses..."
+                },
                 aoColumns: [
                 {
-                    mData: 'nur_id'
+                    mData: 'nur_id',
+                    sClass: 'cell-id'
                 },
                 {
                     mData: 'nur_first_name'
@@ -124,17 +131,20 @@ $(document).ready(function () {
                     mData: 'nur_address'
                 },
                 {
-                    mData: 'nur_ph_no'
+                    mData: 'nur_ph_no',
+                    sClass: 'cell-number'
                 },
                 {
                     mRender: function (o) {
                         return '<button class="btn-xs btn btn-info btn-edit" type="button">Edit</button>';
-                    }
+                    },
+                    sClass: 'cell-actions'
                 },
                 {
                     mRender: function (o) {
                         return '<button class="btn-xs btn btn-danger delete-btn" type="button">Delete</button>';
-                    }
+                    },
+                    sClass: 'cell-actions'
                 }
                 ]
             });

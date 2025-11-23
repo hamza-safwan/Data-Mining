@@ -1,0 +1,136 @@
+﻿{% extends "base.html" %}
+
+{% block title %}Prescribes �?" MedSync{% endblock %}
+
+{% block content %}
+  <section class="page-header">
+    <div>
+      <h1 class="page-title">Prescribes</h1>
+      <p class="page-subtitle">View and add prescription records linking doctors, patients and meds.</p>
+    </div>
+    <div class="page-actions">
+      <button id="addPrescribes" class="btn-primary" type="button">
+        <i class="fa-solid fa-file-medical"></i>
+        Add prescription
+      </button>
+      <button class="btn-ghost" type="button" onclick="window.location='{{ url_for('dashboard') }}'">
+        <i class="fa-solid fa-chart-line"></i>
+        Back to dashboard
+      </button>
+    </div>
+  </section>
+
+  <section class="panel">
+    <header class="panel-header">
+      <div>
+        <h2 class="panel-title">All prescribes</h2>
+        <p class="panel-subtitle">Data combines doctor, patient and medication details.</p>
+      </div>
+    </header>
+
+    <div class="table-responsive">
+      <table id="datatable4">
+        <thead>
+          <tr>
+            <th class="cell-id">Doc ID</th>
+            <th>Doc first</th>
+            <th>Doc last</th>
+            <th class="cell-id">Pat ID</th>
+            <th>Pat first</th>
+            <th>Pat last</th>
+            <th class="cell-id">Med code</th>
+            <th class="cell-number">Date</th>
+            <th class="cell-id">Appointment ID</th>
+            <th class="cell-number">Dose</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </section>
+
+  <div id="prescribes-modal-backdrop" class="modal-backdrop" style="display:none;">
+    <div class="modal-panel">
+      <header class="modal-header">
+        <div class="modal-title">Add prescribes</div>
+        <button type="button" id="close-modal-btn" class="btn-ghost">
+          Close
+        </button>
+      </header>
+      <div class="modal-body">
+        <form id="detailform">
+          <div class="field-group">
+            <label class="field-label">Doctor ID</label>
+            <input class="field-input" name="doc_id" type="text" required>
+          </div>
+          <div class="field-group">
+            <label class="field-label">Patient ID</label>
+            <input class="field-input" name="pat_id" type="text" required>
+          </div>
+          <div class="field-group">
+            <label class="field-label">Medication code</label>
+            <input class="field-input" name="med_code" type="text" required>
+          </div>
+          <div class="field-group">
+            <label class="field-label">Prescription date</label>
+            <input class="field-input form_datetime" name="p_date" type="text" required readonly>
+          </div>
+          <div class="field-group">
+            <label class="field-label">Appointment ID</label>
+            <input class="field-input" name="app_id" type="text" required>
+          </div>
+          <div class="field-group">
+            <label class="field-label">Dose</label>
+            <input class="field-input" name="dose" type="text" required>
+          </div>
+        </form>
+      </div>
+      <footer class="modal-footer">
+        <button type="button" id="cancel-modal-btn" class="btn-ghost">Cancel</button>
+        <button type="button" id="savetheprescribes" class="btn-primary">Save</button>
+      </footer>
+    </div>
+  </div>
+  <div id="myModal" style="display:none;"></div>
+{% endblock %}
+
+{% block head_extra %}{% endblock %}
+
+{% block scripts %}
+  <script src="{{ url_for('static', filename='vendor/datatables/media/js/jquery.dataTables.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='vendor/datatables/media/js/dataTables.bootstrap.js') }}"></script>
+  <script src="{{ url_for('static', filename='vendor/serialize/jquery.serializejson.js') }}"></script>
+  <script src="{{ url_for('static', filename='vendor/sweetalert/dist/sweetalert.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='vendor/datepicker/build/js/bootstrap-datetimepicker.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/prescribes.js') }}"></script>
+  <script>
+    $(function () {
+      var $backdrop = $('#prescribes-modal-backdrop');
+
+      function openModal() {
+        $backdrop.css('display', 'flex');
+        $('body').css('overflow', 'hidden');
+      }
+
+      function closeModal() {
+        $backdrop.css('display', 'none');
+        $('body').css('overflow', '');
+      }
+
+      $('#close-modal-btn, #cancel-modal-btn').on('click', function () {
+        closeModal();
+      });
+
+      $.fn.modal = function (action) {
+        if (action === 'show' || action === undefined) {
+          openModal();
+          this.trigger('shown.bs.modal');
+        } else if (action === 'hide') {
+          closeModal();
+          this.trigger('hidden.bs.modal');
+        }
+        return this;
+      };
+    });
+  </script>
+{% endblock %}

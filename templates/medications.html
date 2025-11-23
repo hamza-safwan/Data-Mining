@@ -1,0 +1,117 @@
+﻿{% extends "base.html" %}
+
+{% block title %}Medications �?" MedSync{% endblock %}
+
+{% block content %}
+  <section class="page-header">
+    <div>
+      <h1 class="page-title">Medications</h1>
+      <p class="page-subtitle">Manage medications that can be prescribed to patients.</p>
+    </div>
+    <div class="page-actions">
+      <button id="addMedication" class="btn-primary" type="button">
+        <i class="fa-solid fa-pills"></i>
+        Add medication
+      </button>
+      <button class="btn-ghost" type="button" onclick="window.location='{{ url_for('dashboard') }}'">
+        <i class="fa-solid fa-chart-line"></i>
+        Back to dashboard
+      </button>
+    </div>
+  </section>
+
+  <section class="panel">
+    <header class="panel-header">
+      <div>
+        <h2 class="panel-title">All medications</h2>
+        <p class="panel-subtitle">Medications can be linked to prescription and procedure flows.</p>
+      </div>
+    </header>
+
+    <div class="table-responsive">
+      <table id="datatable4">
+        <thead>
+          <tr>
+            <th class="cell-id">Code</th>
+            <th>Name</th>
+            <th class="cell-number">Brand</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </section>
+
+  <div id="medication-modal-backdrop" class="modal-backdrop" style="display:none;">
+    <div class="modal-panel">
+      <header class="modal-header">
+        <div class="modal-title">Medication</div>
+        <button type="button" id="close-modal-btn" class="btn-ghost">
+          Close
+        </button>
+      </header>
+      <div class="modal-body">
+        <form id="detailform">
+          <div class="field-group">
+            <label class="field-label">Name</label>
+            <input class="field-input" name="med_name" type="text" required>
+          </div>
+          <div class="field-group">
+            <label class="field-label">Brand</label>
+            <input class="field-input" name="med_brand" type="text" required>
+          </div>
+          <div class="field-group">
+            <label class="field-label">Description</label>
+            <textarea class="field-textarea" name="med_description" required></textarea>
+          </div>
+        </form>
+      </div>
+      <footer class="modal-footer">
+        <button type="button" id="cancel-modal-btn" class="btn-ghost">Cancel</button>
+        <button type="button" id="savethemedication" class="btn-primary">Save</button>
+      </footer>
+    </div>
+  </div>
+  <div id="myModal" style="display:none;"></div>
+{% endblock %}
+
+{% block head_extra %}{% endblock %}
+
+{% block scripts %}
+  <script src="{{ url_for('static', filename='vendor/datatables/media/js/jquery.dataTables.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='vendor/datatables/media/js/dataTables.bootstrap.js') }}"></script>
+  <script src="{{ url_for('static', filename='vendor/serialize/jquery.serializejson.js') }}"></script>
+  <script src="{{ url_for('static', filename='vendor/sweetalert/dist/sweetalert.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/medication.js') }}"></script>
+  <script>
+    $(function () {
+      var $backdrop = $('#medication-modal-backdrop');
+
+      function openModal() {
+        $backdrop.css('display', 'flex');
+        $('body').css('overflow', 'hidden');
+      }
+
+      function closeModal() {
+        $backdrop.css('display', 'none');
+        $('body').css('overflow', '');
+      }
+
+      $('#close-modal-btn, #cancel-modal-btn').on('click', function () {
+        closeModal();
+      });
+
+      $.fn.modal = function (action) {
+        if (action === 'show' || action === undefined) {
+          openModal();
+          this.trigger('shown.bs.modal');
+        } else if (action === 'hide') {
+          closeModal();
+          this.trigger('hidden.bs.modal');
+        }
+        return this;
+      };
+    });
+  </script>
+{% endblock %}

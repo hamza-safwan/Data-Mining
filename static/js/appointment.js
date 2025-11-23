@@ -91,8 +91,14 @@ $(document).ready(function () {
                 'paging': true, // Table pagination
                 'ordering': true, // Column ordering
                 'info': true, // Bottom left status text
+                'bLengthChange': false,
+                "iDisplayLength": 10,
                 aaData: response,
                 "aaSorting": [],
+                language: {
+                    search: "",
+                    searchPlaceholder: "Search appointments..."
+                },
                 aoColumns: [
                 {
                     mData: 'doc_fullname'
@@ -101,12 +107,14 @@ $(document).ready(function () {
                     mData: 'pat_fullname'
                 },
                 {
-                    mData: 'appointment_date'
+                    mData: 'appointment_date',
+                    sClass: 'cell-number'
                 },
                 {
                     mRender: function (o) {
                         return '<button class="btn-xs btn btn-danger delete-btn" type="button">Delete</button>';
-                    }
+                    },
+                    sClass: 'cell-actions'
                 }
                 ]
             });

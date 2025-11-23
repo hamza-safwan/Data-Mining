@@ -1,0 +1,112 @@
+﻿{% extends "base.html" %}
+
+{% block title %}Departments �?" MedSync{% endblock %}
+
+{% block content %}
+  <section class="page-header">
+    <div>
+      <h1 class="page-title">Departments</h1>
+      <p class="page-subtitle">Manage hospital departments and their specialty focus.</p>
+    </div>
+    <div class="page-actions">
+      <button id="addDepartment" class="btn-primary" type="button">
+        <i class="fa-solid fa-layer-group"></i>
+        Add department
+      </button>
+      <button class="btn-ghost" type="button" onclick="window.location='{{ url_for('dashboard') }}'">
+        <i class="fa-solid fa-chart-line"></i>
+        Back to dashboard
+      </button>
+    </div>
+  </section>
+
+  <section class="panel">
+    <header class="panel-header">
+      <div>
+        <h2 class="panel-title">All departments</h2>
+        <p class="panel-subtitle">Departments can be mapped to doctors and procedures.</p>
+      </div>
+    </header>
+
+    <div class="table-responsive">
+      <table id="datatable4">
+        <thead>
+          <tr>
+            <th class="cell-id" style="width:30%">Department ID</th>
+            <th style="width:40%">Name</th>
+            <th class="cell-number" style="width:30%">Head ID</th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </section>
+
+  <div id="department-modal-backdrop" class="modal-backdrop" style="display:none;">
+    <div class="modal-panel">
+      <header class="modal-header">
+        <div class="modal-title">Department</div>
+        <button type="button" id="close-modal-btn" class="btn-ghost">
+          Close
+        </button>
+      </header>
+      <div class="modal-body">
+        <form id="detailform">
+          <div class="field-group">
+            <label class="field-label">Department name</label>
+            <input class="field-input" name="dep_name" type="text" required>
+          </div>
+          <div class="field-group">
+            <label class="field-label">Head ID</label>
+            <input class="field-input" name="dep_head_id" type="text">
+          </div>
+        </form>
+      </div>
+      <footer class="modal-footer">
+        <button type="button" id="cancel-modal-btn" class="btn-ghost">Cancel</button>
+        <button type="button" id="savethedepartment" class="btn-primary">Save</button>
+      </footer>
+    </div>
+  </div>
+  <div id="myModal" style="display:none;"></div>
+{% endblock %}
+
+{% block head_extra %}{% endblock %}
+
+{% block scripts %}
+  <script src="{{ url_for('static', filename='vendor/datatables/media/js/jquery.dataTables.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='vendor/datatables/media/js/dataTables.bootstrap.js') }}"></script>
+  <script src="{{ url_for('static', filename='vendor/serialize/jquery.serializejson.js') }}"></script>
+  <script src="{{ url_for('static', filename='vendor/sweetalert/dist/sweetalert.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/department.js') }}"></script>
+  <script>
+    $(function () {
+      var $backdrop = $('#department-modal-backdrop');
+
+      function openModal() {
+        $backdrop.css('display', 'flex');
+        $('body').css('overflow', 'hidden');
+      }
+
+      function closeModal() {
+        $backdrop.css('display', 'none');
+        $('body').css('overflow', '');
+      }
+
+      $('#close-modal-btn, #cancel-modal-btn').on('click', function () {
+        closeModal();
+      });
+
+      $.fn.modal = function (action) {
+        if (action === 'show' || action === undefined) {
+          openModal();
+          this.trigger('shown.bs.modal');
+        } else if (action === 'hide') {
+          closeModal();
+          this.trigger('hidden.bs.modal');
+        }
+        return this;
+      };
+    });
+  </script>
+{% endblock %}

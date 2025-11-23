@@ -49,11 +49,18 @@ $(document).ready(function () {
                 'paging': true, // Table pagination
                 'ordering': true, // Column ordering
                 'info': true, // Bottom left status text
+                'bLengthChange': false,
+                "iDisplayLength": 10,
                 aaData: response,
                 "aaSorting": [],
+                language: {
+                    search: "",
+                    searchPlaceholder: "Search undergoes..."
+                },
                 aoColumns: [
                     {
-                        mData: 'doc_id'
+                        mData: 'doc_id',
+                        sClass: 'cell-id'
                     },
                     {
                         mData: 'doc_first_name'
@@ -62,7 +69,8 @@ $(document).ready(function () {
                         mData: 'doc_last_name'
                     },
                     {
-                        mData: 'pat_id'
+                        mData: 'pat_id',
+                        sClass: 'cell-id'
                     },
                     {
                         mData: 'pat_first_name'
@@ -71,13 +79,16 @@ $(document).ready(function () {
                         mData: 'pat_last_name'
                     },
                     {
-                        mData: 'proc_code'
+                        mData: 'proc_code',
+                        sClass: 'cell-id'
                     },
                     {
-                        mData: 'u_date'
+                        mData: 'u_date',
+                        sClass: 'cell-number'
                     },
                     {
-                        mData: 'nur_id'
+                        mData: 'nur_id',
+                        sClass: 'cell-id'
                     },
                     {
                         mData: 'nur_first_name'
@@ -86,7 +97,8 @@ $(document).ready(function () {
                         mData: 'nur_last_name'
                     },
                     {
-                        mData: 'room_no'
+                        mData: 'room_no',
+                        sClass: 'cell-id'
                     }
                 ]
             });

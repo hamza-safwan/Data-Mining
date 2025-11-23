@@ -1,0 +1,741 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard �?" MedSync</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: 'Poppins', sans-serif;
+      background-color: #f3f4f6;
+      color: #111827;
+    }
+
+    a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    /* Top navigation */
+    .navbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      background-color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 12px 24px;
+      box-shadow: 0 1px 4px rgba(15, 23, 42, 0.08);
+    }
+
+    .navbar-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .navbar-logo {
+      font-weight: 700;
+      font-size: 20px;
+      color: #0f172a;
+    }
+
+    .navbar-tagline {
+      font-size: 12px;
+      color: #6b7280;
+    }
+
+    .navbar-links {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      font-size: 14px;
+    }
+
+    .navbar-links a {
+      padding: 6px 10px;
+      border-radius: 999px;
+      color: #4b5563;
+      transition: background-color 0.18s ease, color 0.18s ease;
+    }
+
+    .navbar-links a:hover {
+      background-color: #e5f5ff;
+      color: #111827;
+    }
+
+    .navbar-links .active {
+      background-color: #0f172a;
+      color: #f9fafb;
+    }
+
+    .navbar-account {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .navbar-account-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 10px;
+      border-radius: 999px;
+      border: 1px solid #e5e7eb;
+      background-color: #f9fafb;
+      font-size: 13px;
+      font-weight: 500;
+      color: #374151;
+      cursor: pointer;
+    }
+
+    .navbar-account-button:hover {
+      background-color: #f3f4f6;
+    }
+
+    .navbar-account-avatar {
+      width: 24px;
+      height: 24px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, #10b981, #14b8a6);
+      color: #ecfdf5;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .navbar-account-label {
+      max-width: 120px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .navbar-account-chevron {
+      font-size: 10px;
+      color: #9ca3af;
+    }
+
+    .navbar-account-menu {
+      position: absolute;
+      right: 0;
+      top: calc(100% + 8px);
+      min-width: 180px;
+      background-color: #ffffff;
+      border-radius: 12px;
+      box-shadow: 0 12px 30px rgba(15, 23, 42, 0.18);
+      border: 1px solid #e5e7eb;
+      padding: 6px 0;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(4px);
+      transition: opacity 0.16s ease-out, transform 0.16s ease-out;
+      z-index: 30;
+    }
+
+    .navbar-account-menu.open {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(0);
+    }
+
+    .navbar-account-menu a {
+      display: block;
+      padding: 7px 14px;
+      font-size: 13px;
+      color: #374151;
+    }
+
+    .navbar-account-menu a:hover {
+      background-color: #f9fafb;
+    }
+    .navbar-btn-primary {
+      padding: 7px 14px;
+      border-radius: 999px;
+      background-color: #10b981;
+      color: #ffffff;
+      border: none;
+      font-size: 13px;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .navbar-btn-primary:hover {
+      background-color: #059669;
+    }
+
+    /* Layout */
+    .layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1fr);
+      max-width: 1200px;
+      margin: 24px auto;
+      padding: 0 16px 32px;
+      gap: 20px;
+    }
+
+    .page-header {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: wrap;
+      gap: 10px;
+    }
+
+    .page-title {
+      font-size: 24px;
+      font-weight: 600;
+    }
+
+    .page-subtitle {
+      font-size: 13px;
+      color: #6b7280;
+      margin-top: 4px;
+    }
+
+    .page-actions {
+      display: flex;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .btn-ghost {
+      padding: 6px 12px;
+      border-radius: 999px;
+      border: 1px solid #d1d5db;
+      background-color: #ffffff;
+      font-size: 13px;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      color: #374151;
+    }
+
+    .btn-ghost i {
+      color: #6b7280;
+    }
+
+    .btn-ghost:hover {
+      background-color: #f3f4f6;
+    }
+
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+      gap: 16px;
+      margin-top: 8px;
+    }
+
+    .card {
+      position: relative;
+      background-color: #ffffff;
+      border-radius: 18px;
+      padding: 16px 16px 14px;
+      box-shadow: 0 2px 10px rgba(15, 23, 42, 0.06);
+      border: 1px solid rgba(226, 232, 240, 0.9);
+      transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+      overflow: hidden;
+    }
+
+    .card::before {
+      content: "";
+      position: absolute;
+      width: 120px;
+      height: 120px;
+      border-radius: 999px;
+      background: radial-gradient(circle at center, #dcfce7, transparent 60%);
+      opacity: 0.5;
+      right: -40px;
+      top: -40px;
+      pointer-events: none;
+    }
+
+    .card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 30px rgba(15, 23, 42, 0.14);
+      border-color: rgba(59, 130, 246, 0.3);
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .card-label {
+      font-size: 12px;
+      color: #6b7280;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+    }
+
+    .card-icon {
+      width: 32px;
+      height: 32px;
+      border-radius: 999px;
+      background-color: #ecfdf5;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #059669;
+      font-size: 16px;
+    }
+
+    .card-main {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      gap: 8px;
+    }
+
+    .card-value {
+      font-size: 22px;
+      font-weight: 600;
+    }
+
+    .card-caption {
+      font-size: 12px;
+      color: #9ca3af;
+      margin-top: 4px;
+    }
+
+    .card-link {
+      font-size: 12px;
+      color: #2563eb;
+      margin-top: 6px;
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .card-link i {
+      font-size: 11px;
+    }
+
+    .panel {
+      background-color: #ffffff;
+      border-radius: 20px;
+      padding: 18px 18px 16px;
+      box-shadow: 0 2px 10px rgba(15, 23, 42, 0.05);
+      border: 1px solid rgba(226, 232, 240, 0.9);
+      transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+    }
+
+    .panel:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 10px 24px rgba(15, 23, 42, 0.12);
+      border-color: rgba(59, 130, 246, 0.3);
+    }
+
+    .panel-header {
+      display: flex;
+      align-items: baseline;
+      justify-content: space-between;
+      margin-bottom: 10px;
+    }
+
+    .panel-title {
+      font-size: 15px;
+      font-weight: 600;
+    }
+
+    .panel-subtitle {
+      font-size: 12px;
+      color: #6b7280;
+    }
+
+    .panel-pills {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+      margin-top: 8px;
+    }
+
+    .pill {
+      padding: 4px 9px;
+      border-radius: 999px;
+      font-size: 11px;
+      background-color: #f3f4f6;
+      color: #4b5563;
+    }
+
+    .pill-green {
+      background-color: #dcfce7;
+      color: #166534;
+    }
+
+    #dashboard-analytics {
+      width: 100%;
+      max-height: 200px;
+    }
+
+    .dashboard-meta {
+      margin-top: 8px;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+    }
+
+    .dashboard-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 4px 9px;
+      border-radius: 999px;
+      font-size: 11px;
+      background-color: #eef2ff;
+      color: #3730a3;
+    }
+
+    .dashboard-pill-dot {
+      width: 7px;
+      height: 7px;
+      border-radius: 999px;
+      background-color: #22c55e;
+      box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.6);
+      animation: dashboard-pulse 1.6s ease-out infinite;
+    }
+
+    @keyframes dashboard-pulse {
+      0% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(34, 197, 94, 0.6);
+      }
+
+      70% {
+        transform: scale(1.4);
+        box-shadow: 0 0 0 6px rgba(34, 197, 94, 0);
+      }
+
+      100% {
+        transform: scale(1);
+        box-shadow: 0 0 0 0 rgba(34, 197, 94, 0);
+      }
+    }
+
+    .analytics-layout {
+      display: grid;
+      grid-template-columns: minmax(0, 1.7fr) minmax(0, 1.1fr);
+      gap: 16px;
+      align-items: flex-start;
+    }
+
+    @media (max-width: 900px) {
+      .analytics-layout {
+        grid-template-columns: minmax(0, 1fr);
+      }
+    }
+
+    .footer {
+      padding: 12px 24px 18px;
+      font-size: 12px;
+      color: #9ca3af;
+      text-align: center;
+    }
+  </style>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+  <script src="{{ url_for('static', filename='js/home.js') }}"></script>
+</head>
+
+<body>
+  <header class="navbar">
+    <div class="navbar-left">
+      <a href="{% if session.get('user_id') %}{{ url_for('dashboard') }}{% else %}{{ url_for('index') }}{% endif %}" class="navbar-logo">MedSync</a>
+      <span class="navbar-tagline">Hospital Management</span>
+    </div>
+    <nav class="navbar-links">
+      {% if session.get('user_id') %}
+        <a href="{{ url_for('dashboard') }}" class="active">Dashboard</a>
+        <a href="{{ url_for('patients_page') }}">Patients</a>
+        <a href="{{ url_for('doctors_page') }}">Doctors</a>
+        <a href="{{ url_for('appointments_page') }}">Appointments</a>
+        <div class="navbar-account">
+          <button type="button" class="navbar-account-button" id="navbar-account-trigger">
+            <div class="navbar-account-avatar">
+              {{ (session.get('user_full_name') or session.get('user_email') or 'A')[0]|upper }}
+            </div>
+            <span class="navbar-account-label">
+              {{ session.get('user_full_name') or session.get('user_email') or 'Account' }}
+            </span>
+            <i class="fa-solid fa-chevron-down navbar-account-chevron"></i>
+          </button>
+          <div class="navbar-account-menu" id="navbar-account-menu">
+            <a href="{{ url_for('account_profile_page') }}">
+              Profile
+            </a>
+            <a href="{{ url_for('account_settings_page') }}">
+              Settings
+            </a>
+            <a href="{{ url_for('logout_page') }}">
+              Sign out
+            </a>
+          </div>
+        </div>
+      {% else %}
+        <button class="navbar-btn-primary" onclick="window.location='{{ url_for('login_page') }}'">
+          Log in
+        </button>
+      {% endif %}
+    </nav>
+  </header>
+
+  <main class="layout">
+    <section class="page-header">
+      <div>
+        <h1 class="page-title">Dashboard</h1>
+        <p class="page-subtitle">Quick snapshot of patients, staff, rooms and activity.</p>
+        <div class="dashboard-meta">
+          <span class="dashboard-pill">
+            <span class="dashboard-pill-dot"></span>
+            Live instance connected to MedSync API
+          </span>
+          <span class="dashboard-pill">
+            <i class="fa-solid fa-chart-line"></i>
+            Overview anchored here �?" patients, doctors, rooms & more
+          </span>
+        </div>
+      </div>
+      <div class="page-actions">
+        <button class="btn-ghost" onclick="window.location='{{ url_for('appointments_page') }}'">
+          <i class="fa-solid fa-calendar-plus"></i>
+          New appointment
+        </button>
+        <button class="btn-ghost" onclick="window.location='{{ url_for('patients_page') }}'">
+          <i class="fa-solid fa-user-plus"></i>
+          New patient
+        </button>
+      </div>
+    </section>
+
+    <section class="cards-grid">
+      <article class="card">
+        <div class="card-header">
+          <div class="card-label">Patients</div>
+          <div class="card-icon">
+            <i class="fa-solid fa-wheelchair"></i>
+          </div>
+        </div>
+        <div class="card-main">
+          <div>
+            <div class="card-value" id="patientcount">�?"</div>
+            <div class="card-caption">Total active patients</div>
+          </div>
+        </div>
+        <a class="card-link" href="{{ url_for('patients_page') }}">
+          Manage patients
+          <i class="fa-solid fa-arrow-right"></i>
+        </a>
+      </article>
+
+      <article class="card">
+        <div class="card-header">
+          <div class="card-label">Doctors</div>
+          <div class="card-icon">
+            <i class="fa-solid fa-user-doctor"></i>
+          </div>
+        </div>
+        <div class="card-main">
+          <div>
+            <div class="card-value" id="doctorcount" data-limit="{{ profile.total_doctors if profile and profile.total_doctors is not none else '' }}">�?"</div>
+            <div class="card-caption">Registered doctors</div>
+          </div>
+        </div>
+        <a class="card-link" href="{{ url_for('doctors_page') }}">
+          Manage doctors
+          <i class="fa-solid fa-arrow-right"></i>
+        </a>
+      </article>
+
+      <article class="card">
+        <div class="card-header">
+          <div class="card-label">Appointments</div>
+          <div class="card-icon">
+            <i class="fa-solid fa-calendar-check"></i>
+          </div>
+        </div>
+        <div class="card-main">
+          <div>
+            <div class="card-value" id="appointmentcount">�?"</div>
+            <div class="card-caption">Scheduled today / upcoming</div>
+          </div>
+        </div>
+        <a class="card-link" href="{{ url_for('appointments_page') }}">
+          View appointments
+          <i class="fa-solid fa-arrow-right"></i>
+        </a>
+      </article>
+
+      <article class="card">
+        <div class="card-header">
+          <div class="card-label">Medication</div>
+          <div class="card-icon">
+            <i class="fa-solid fa-pills"></i>
+          </div>
+        </div>
+        <div class="card-main">
+          <div>
+            <div class="card-value" id="medicationcount">�?"</div>
+            <div class="card-caption">Available medications</div>
+          </div>
+        </div>
+        <a class="card-link" href="{{ url_for('medications_page') }}">
+          Manage meds
+          <i class="fa-solid fa-arrow-right"></i>
+        </a>
+      </article>
+
+      <article class="card">
+        <div class="card-header">
+          <div class="card-label">Rooms</div>
+          <div class="card-icon">
+            <i class="fa-solid fa-hospital"></i>
+          </div>
+        </div>
+        <div class="card-main">
+          <div>
+            <div class="card-value" id="roomcount" data-limit="{{ profile.total_beds if profile and profile.total_beds is not none else '' }}">�?"</div>
+            <div class="card-caption">Rooms tracked</div>
+          </div>
+        </div>
+        <a class="card-link" href="{{ url_for('rooms_page') }}">
+          Room overview
+          <i class="fa-solid fa-arrow-right"></i>
+        </a>
+      </article>
+
+      <article class="card">
+        <div class="card-header">
+          <div class="card-label">Nurses</div>
+          <div class="card-icon">
+            <i class="fa-solid fa-user-nurse"></i>
+          </div>
+        </div>
+        <div class="card-main">
+          <div>
+            <div class="card-value" id="nursecount">�?"</div>
+            <div class="card-caption">Nurses on roster</div>
+          </div>
+        </div>
+        <a class="card-link" href="{{ url_for('nurses_page') }}">
+          Manage nurses
+          <i class="fa-solid fa-arrow-right"></i>
+        </a>
+      </article>
+
+      <article class="card">
+        <div class="card-header">
+          <div class="card-label">Departments</div>
+          <div class="card-icon">
+            <i class="fa-solid fa-layer-group"></i>
+          </div>
+        </div>
+        <div class="card-main">
+          <div>
+            <div class="card-value" id="departmentcount" data-limit="{{ profile.total_departments if profile and profile.total_departments is not none else '' }}">�?"</div>
+            <div class="card-caption">Hospital departments</div>
+          </div>
+        </div>
+        <a class="card-link" href="{{ url_for('departments_page') }}">
+          View departments
+          <i class="fa-solid fa-arrow-right"></i>
+        </a>
+      </article>
+
+      <article class="card">
+        <div class="card-header">
+          <div class="card-label">Procedures</div>
+          <div class="card-icon">
+            <i class="fa-solid fa-stethoscope"></i>
+          </div>
+        </div>
+        <div class="card-main">
+          <div>
+            <div class="card-value" id="proccount">�?"</div>
+            <div class="card-caption">Procedures offered</div>
+          </div>
+        </div>
+        <a class="card-link" href="{{ url_for('procedures_page') }}">
+          Manage procedures
+          <i class="fa-solid fa-arrow-right"></i>
+        </a>
+      </article>
+    </section>
+
+    <section class="panel">
+      <header class="panel-header">
+        <div>
+          <h2 class="panel-title">Analytics</h2>
+          <p class="panel-subtitle">Compact view of current entities and care workload.</p>
+        </div>
+      </header>
+      <canvas id="dashboard-analytics" height="120"></canvas>
+    </section>
+
+    <section class="panel">
+      <header class="panel-header">
+        <div>
+          <h2 class="panel-title">Activity overview</h2>
+          <p class="panel-subtitle">High-level entities currently tracked in this MedSync instance.</p>
+        </div>
+      </header>
+      <div class="panel-pills">
+        <span class="pill pill-green">
+          Prescriptions: <span id="prescribescount">�?"</span>
+        </span>
+        <span class="pill pill-green">
+          Undergoes: <span id="undergoescount">�?"</span>
+        </span>
+        <span class="pill">
+          Total patients: <span id="patientcount-pill">mirrors top</span>
+        </span>
+        <span class="pill">
+          Total rooms: <span id="roomcount-pill">mirrors top</span>
+        </span>
+      </div>
+    </section>
+  </main>
+
+  <footer class="footer">
+    �� 2025 MedSync. Hospital Management System.
+  </footer>
+
+  <script>
+    (function () {
+      var trigger = document.getElementById('navbar-account-trigger');
+      var menu = document.getElementById('navbar-account-menu');
+      if (trigger && menu) {
+        trigger.addEventListener('click', function (e) {
+          e.stopPropagation();
+          menu.classList.toggle('open');
+        });
+        document.addEventListener('click', function () {
+          menu.classList.remove('open');
+        });
+      }
+    })();
+
+    // Mirror some counts into pills once /common has loaded via home.js
+    $(function () {
+      setTimeout(function () {
+        $('#patientcount-pill').text($('#patientcount').text() || '�?"');
+        $('#roomcount-pill').text($('#roomcount').text() || '�?"');
+      }, 600);
+    });
+  </script>
+</body>
+
+</html>

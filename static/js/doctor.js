@@ -108,11 +108,18 @@ $(document).ready(function () {
                 'paging': true, // Table pagination
                 'ordering': true, // Column ordering
                 'info': true, // Bottom left status text
+                'bLengthChange': false,
+                "iDisplayLength": 10,
                 aaData: response,
                 "aaSorting": [],
+                language: {
+                    search: "",
+                    searchPlaceholder: "Search doctors..."
+                },
                 aoColumns: [
                     {
-                        mData: 'doc_id'
+                        mData: 'doc_id',
+                        sClass: 'cell-id'
                     },
                     {
                         mData: 'doc_first_name'
@@ -124,17 +131,20 @@ $(document).ready(function () {
                         mData: 'doc_address'
                     },
                     {
-                        mData: 'doc_ph_no'
+                        mData: 'doc_ph_no',
+                        sClass: 'cell-number'
                     },
                     {
                         mRender: function (o) {
                             return '<button class="btn-xs btn btn-info btn-edit" type="button">Edit</button>';
-                        }
+                        },
+                        sClass: 'cell-actions'
                     },
                     {
                         mRender: function (o) {
                             return '<button class="btn-xs btn btn-danger delete-btn" type="button">Delete</button>';
-                        }
+                        },
+                        sClass: 'cell-actions'
                     }
                 ]
             });

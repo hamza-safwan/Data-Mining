@@ -52,11 +52,13 @@ class Undergoes(Resource):
 
         undergoes = request.get_json(force=True)
         doc_id = undergoes['doc_id']
-        pat_id = undergoes['pat_id']
         proc_code = undergoes['proc_code']
         u_date = undergoes['u_date']
-        app_id = undergoes['app_id']
+        nur_id = undergoes['nur_id']
         room_no = undergoes['room_no']
-        conn.execute("UPDATE undergoes SET doc_id=?,pat_id=?,proc_code=?,u_date=?,app_id=?,room_no=?, WHERE pat_id=?", (doc_id, pat_id, proc_code, u_date, app_id, room_no, pat_id))
+        conn.execute(
+            "UPDATE undergoes SET doc_id=?,proc_code=?,u_date=?,nur_id=?,room_no=? WHERE pat_id=?",
+            (doc_id, proc_code, u_date, nur_id, room_no, pat_id),
+        )
         conn.commit()
         return undergoes

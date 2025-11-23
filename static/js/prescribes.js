@@ -49,11 +49,18 @@ $(document).ready(function () {
                 'paging': true, // Table pagination
                 'ordering': true, // Column ordering
                 'info': true, // Bottom left status text
+                'bLengthChange': false,
+                "iDisplayLength": 10,
                 aaData: response,
                 "aaSorting": [],
+                language: {
+                    search: "",
+                    searchPlaceholder: "Search prescribes..."
+                },
                 aoColumns: [
                 {
-                    mData: 'doc_id'
+                    mData: 'doc_id',
+                    sClass: 'cell-id'
                 },
                 {
                     mData: 'doc_first_name'
@@ -62,7 +69,8 @@ $(document).ready(function () {
                     mData: 'doc_last_name'
                 },
                 {
-                    mData: 'pat_id'
+                    mData: 'pat_id',
+                    sClass: 'cell-id'
                 },
                 {
                     mData: 'pat_first_name'
@@ -71,16 +79,20 @@ $(document).ready(function () {
                     mData: 'pat_last_name'
                 },
                 {
-                    mData: 'med_code'
+                    mData: 'med_code',
+                    sClass: 'cell-id'
                 },
                 {
-                    mData: 'p_date'
+                    mData: 'p_date',
+                    sClass: 'cell-number'
                 },
                 {
-                    mData: 'app_id'
+                    mData: 'app_id',
+                    sClass: 'cell-id'
                 },
                 {
-                    mData: 'dose'
+                    mData: 'dose',
+                    sClass: 'cell-number'
                 }
                 ]
             });

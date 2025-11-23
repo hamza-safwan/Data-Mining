@@ -11,3 +11,18 @@
 ## Deployment:
 - Demo is available at https://safwanhamza.github.io/MedSync/
 - Core Web app is deployed at https://medsync.pythonanywhere.com/
+
+## Running locally
+
+### Prerequisites
+- Python 3.11 (or any recent 3.x)
+
+### Setup
+From the project root:
+- Create a virtual environment: `python -m venv .venv`
+- Activate it (Windows): `.\.venv\Scripts\activate`
+- Install dependencies: `pip install -r requirements.txt`
+
+### Start the app
+- Run: `python app.py`
+- Open: http://127.0.0.1:5000

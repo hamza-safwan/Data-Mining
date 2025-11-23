@@ -1,0 +1,118 @@
+﻿{% extends "base.html" %}
+
+{% block title %}Appointments �?" MedSync{% endblock %}
+
+{% block content %}
+  <section class="page-header">
+    <div>
+      <h1 class="page-title">Appointments</h1>
+      <p class="page-subtitle">Book and review patient appointments across doctors and departments.</p>
+    </div>
+    <div class="page-actions">
+      <button id="addpatient" class="btn-primary" type="button">
+        <i class="fa-solid fa-calendar-plus"></i>
+        Book appointment
+      </button>
+      <button class="btn-ghost" type="button" onclick="window.location='{{ url_for('dashboard') }}'">
+        <i class="fa-solid fa-chart-line"></i>
+        Back to dashboard
+      </button>
+    </div>
+  </section>
+
+  <section class="panel">
+    <header class="panel-header">
+      <div>
+        <h2 class="panel-title">Upcoming appointments</h2>
+        <p class="panel-subtitle">Data combines doctor and patient details for each booking.</p>
+      </div>
+    </header>
+
+    <div class="table-responsive">
+      <table id="datatable4">
+        <thead>
+          <tr>
+            <th style="width:25%">Doctor</th>
+            <th style="width:35%">Patient</th>
+            <th class="cell-number" style="width:20%">Appointment date</th>
+            <th class="cell-actions" style="width:20%"></th>
+          </tr>
+        </thead>
+        <tbody></tbody>
+      </table>
+    </div>
+  </section>
+
+  <div id="appointment-modal-backdrop" class="modal-backdrop" style="display:none;">
+    <div class="modal-panel">
+      <header class="modal-header">
+        <div class="modal-title">Appointment</div>
+        <button type="button" id="close-modal-btn" class="btn-ghost">
+          Close
+        </button>
+      </header>
+      <div class="modal-body">
+        <form id="detailform">
+          <div class="field-group">
+            <label class="field-label">Doctor</label>
+            <select id="doctor_select" name="doc_id" class="field-input" required></select>
+          </div>
+          <div class="field-group">
+            <label class="field-label">Patient</label>
+            <select id="patient_select" name="pat_id" class="field-input" required></select>
+          </div>
+          <div class="field-group">
+            <label class="field-label">Appointment date</label>
+            <input type="text" name="appointment_date" class="field-input form_datetime" required readonly>
+          </div>
+        </form>
+      </div>
+      <footer class="modal-footer">
+        <button type="button" id="cancel-modal-btn" class="btn-ghost">Cancel</button>
+        <button type="button" id="savethepatient" class="btn-primary">Save</button>
+      </footer>
+    </div>
+  </div>
+  <div id="myModal" style="display:none;"></div>
+{% endblock %}
+
+{% block head_extra %}{% endblock %}
+
+{% block scripts %}
+  <script src="{{ url_for('static', filename='vendor/datatables/media/js/jquery.dataTables.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='vendor/datatables/media/js/dataTables.bootstrap.js') }}"></script>
+  <script src="{{ url_for('static', filename='vendor/serialize/jquery.serializejson.js') }}"></script>
+  <script src="{{ url_for('static', filename='vendor/sweetalert/dist/sweetalert.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='vendor/datepicker/build/js/bootstrap-datetimepicker.min.js') }}"></script>
+  <script src="{{ url_for('static', filename='js/appointment.js') }}"></script>
+  <script>
+    $(function () {
+      var $backdrop = $('#appointment-modal-backdrop');
+
+      function openModal() {
+        $backdrop.css('display', 'flex');
+        $('body').css('overflow', 'hidden');
+      }
+
+      function closeModal() {
+        $backdrop.css('display', 'none');
+        $('body').css('overflow', '');
+      }
+
+      $('#close-modal-btn, #cancel-modal-btn').on('click', function () {
+        closeModal();
+      });
+
+      $.fn.modal = function (action) {
+        if (action === 'show' || action === undefined) {
+          openModal();
+          this.trigger('shown.bs.modal');
+        } else if (action === 'hide') {
+          closeModal();
+          this.trigger('hidden.bs.modal');
+        }
+        return this;
+      };
+    });
+  </script>
+{% endblock %}

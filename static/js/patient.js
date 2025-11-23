@@ -108,11 +108,18 @@ $(document).ready(function () {
                 'paging': true, // Table pagination
                 'ordering': true, // Column ordering
                 'info': true, // Bottom left status text
+                'bLengthChange': false,
+                "iDisplayLength": 10,
                 aaData: response,
                 "aaSorting": [],
+                language: {
+                    search: "",
+                    searchPlaceholder: "Search patients..."
+                },
                 aoColumns: [
                     {
-                        mData: 'pat_id'
+                        mData: 'pat_id',
+                        sClass: 'cell-id'
                     },
                     {
                         mData: 'pat_first_name'
@@ -121,23 +128,27 @@ $(document).ready(function () {
                         mData: 'pat_last_name'
                     },
                     {
-                        mData: 'pat_insurance_no'
+                        mData: 'pat_insurance_no',
+                        sClass: 'cell-number'
                     },
                     {
                         mData: 'pat_address'
                     },
                     {
-                        mData: 'pat_ph_no'
+                        mData: 'pat_ph_no',
+                        sClass: 'cell-number'
                     },
                     {
                         mRender: function (o) {
                             return '<button class="btn-xs btn btn-info btn-edit" type="button">Edit</button>';
-                        }
+                        },
+                        sClass: 'cell-actions'
                     },
                     {
                         mRender: function (o) {
                             return '<button class="btn-xs btn btn-danger delete-btn" type="button">Delete</button>';
-                        }
+                        },
+                        sClass: 'cell-actions'
                     }
                 ]
             });

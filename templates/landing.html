@@ -1,0 +1,1058 @@
+﻿<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>MedSync �?" Hospital Management System</title>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;700&display=swap" rel="stylesheet">
+  <link rel="icon" href="{{ url_for('assets', filename='favicon.ico') }}" type="image/x-icon">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+
+    body,
+    h1,
+    h2,
+    h3,
+    p,
+    ul,
+    li {
+      margin: 0;
+      padding: 0;
+    }
+
+    html {
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Poppins', sans-serif;
+      background-color: #f5f5f5;
+      color: #222;
+    }
+
+    .navbar {
+      position: sticky;
+      top: 0;
+      z-index: 20;
+      background-color: #ffffff;
+      color: #333;
+      padding: 14px 24px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    }
+
+    .navbar-left {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
+
+    .navbar-logo {
+      font-weight: 700;
+      font-size: 22px;
+      text-decoration: none;
+      color: #1c3d5a;
+    }
+
+    .navbar-tagline {
+      font-size: 12px;
+      color: #6b7280;
+    }
+
+    .navbar-links {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .navbar-links a {
+      text-decoration: none;
+      color: #374151;
+      font-size: 14px;
+      padding: 6px 10px;
+      border-radius: 999px;
+      transition: background-color 0.2s, color 0.2s;
+    }
+
+    .navbar-links a:hover {
+      background-color: #e5f5ff;
+      color: #111827;
+    }
+
+    .navbar-btn-primary {
+      padding: 8px 18px;
+      border-radius: 999px;
+      background-color: #10b981;
+      color: #ffffff !important;
+      border: none;
+      font-size: 14px;
+      font-weight: 600;
+      cursor: pointer;
+      box-shadow: 0 3px 10px rgba(16, 185, 129, 0.35);
+      transition: background-color 0.2s, box-shadow 0.2s, transform 0.1s;
+    }
+
+    .navbar-btn-primary:hover {
+      background-color: #059669;
+      box-shadow: 0 4px 14px rgba(16, 185, 129, 0.45);
+      transform: translateY(-1px);
+    }
+
+    .navbar-btn-primary:active {
+      transform: translateY(0);
+      box-shadow: 0 2px 6px rgba(16, 185, 129, 0.35);
+    }
+
+    .hero {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      padding: 80px 10vw 40px;
+      background:
+        radial-gradient(circle at top left, #ecfdf5, #eef2ff),
+        linear-gradient(135deg, #f9fafb 0%, #eef2ff 40%, #ecfdf5 100%);
+      position: relative;
+      overflow: hidden;
+    }
+
+    .hero-bubble {
+      position: absolute;
+      border-radius: 999px;
+      background: radial-gradient(circle at 30% 30%, #a5b4fc, transparent 60%);
+      opacity: 0.2;
+      filter: blur(2px);
+      animation: float-bubble 16s ease-in-out infinite;
+      pointer-events: none;
+    }
+
+    .hero-bubble:nth-child(1) {
+      width: 180px;
+      height: 180px;
+      top: -40px;
+      right: -40px;
+    }
+
+    .hero-bubble:nth-child(2) {
+      width: 220px;
+      height: 220px;
+      bottom: -90px;
+      left: -40px;
+      animation-delay: 4s;
+    }
+
+    .hero-bubble:nth-child(3) {
+      width: 140px;
+      height: 140px;
+      top: 40%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      animation-delay: 8s;
+    }
+
+    @keyframes float-bubble {
+      0% {
+        transform: translate3d(0, 0, 0) scale(1);
+      }
+
+      50% {
+        transform: translate3d(10px, -10px, 0) scale(1.05);
+      }
+
+      100% {
+        transform: translate3d(0, 0, 0) scale(1);
+      }
+    }
+
+    .hero-text {
+      flex: 1 1 320px;
+      padding-right: 24px;
+    }
+
+    .hero-kicker {
+      font-size: 13px;
+      text-transform: uppercase;
+      letter-spacing: 0.12em;
+      color: #059669;
+      font-weight: 600;
+      margin-bottom: 10px;
+    }
+
+    .hero-title {
+      font-size: 40px;
+      line-height: 1.1;
+      margin-bottom: 16px;
+      color: #111827;
+    }
+
+    .hero-subtitle {
+      font-size: 16px;
+      color: #4b5563;
+      max-width: 420px;
+      margin-bottom: 22px;
+    }
+
+    .hero-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      align-items: center;
+    }
+
+    .hero-btn-secondary {
+      padding: 10px 20px;
+      border-radius: 999px;
+      background-color: #ffffff;
+      color: #111827;
+      border: 1px solid #d1d5db;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      transition: background-color 0.2s, color 0.2s, border-color 0.2s;
+    }
+
+    .hero-btn-secondary i {
+      font-size: 16px;
+      color: #10b981;
+    }
+
+    .hero-btn-secondary:hover {
+      background-color: #111827;
+      color: #f9fafb;
+      border-color: #111827;
+    }
+
+    .hero-meta {
+      margin-top: 16px;
+      font-size: 13px;
+      color: #6b7280;
+    }
+
+    .hero-meta strong {
+      color: #111827;
+    }
+
+    .hero-image {
+      flex: 1 1 280px;
+      display: flex;
+      justify-content: center;
+      margin-top: 32px;
+      position: relative;
+    }
+
+    .hero-card {
+      position: relative;
+      width: 360px;
+      max-width: 100%;
+      background-color: #ffffff;
+      border-radius: 24px;
+      padding: 18px 18px 12px;
+      box-shadow: 0 12px 35px rgba(15, 23, 42, 0.18);
+      overflow: hidden;
+      transform: translateY(0) scale(1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease, border-color 0.3s ease;
+      border: 1px solid rgba(148, 163, 184, 0.25);
+    }
+
+    .hero-card::before,
+    .hero-card::after {
+      content: "";
+      position: absolute;
+      border-radius: 999px;
+      filter: blur(26px);
+      opacity: 0.45;
+      pointer-events: none;
+    }
+
+    .hero-card::before {
+      width: 120px;
+      height: 120px;
+      background: radial-gradient(circle at center, #a5b4fc, transparent 60%);
+      top: -40px;
+      right: -40px;
+    }
+
+    .hero-card::after {
+      width: 140px;
+      height: 140px;
+      background: radial-gradient(circle at center, #6ee7b7, transparent 60%);
+      bottom: -50px;
+      left: -40px;
+    }
+
+    .hero-card:hover {
+      transform: translateY(-4px) scale(1.01);
+      box-shadow: 0 18px 45px rgba(15, 23, 42, 0.25);
+      border-color: rgba(59, 130, 246, 0.5);
+    }
+
+    .hero-card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 10px;
+    }
+
+    .hero-card-title {
+      font-size: 14px;
+      font-weight: 600;
+      color: #111827;
+    }
+
+    .hero-card-tag {
+      font-size: 11px;
+      padding: 4px 10px;
+      border-radius: 999px;
+      background-color: #ecfdf3;
+      color: #15803d;
+      font-weight: 500;
+    }
+
+    .hero-metrics {
+      display: flex;
+      gap: 10px;
+      margin-top: 10px;
+      margin-bottom: 6px;
+    }
+
+    .hero-metric {
+      flex: 1;
+      background-color: #f9fafb;
+      border-radius: 14px;
+      padding: 10px 12px;
+    }
+
+    .hero-metric-label {
+      font-size: 11px;
+      color: #6b7280;
+    }
+
+    .hero-metric-value {
+      font-size: 16px;
+      font-weight: 600;
+      color: #111827;
+      margin-top: 3px;
+    }
+
+    .hero-metric-delta {
+      font-size: 11px;
+      color: #059669;
+      margin-top: 2px;
+    }
+
+    .hero-card-footer {
+      margin-top: 8px;
+      font-size: 11px;
+      color: #6b7280;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .hero-card-footer span {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+    }
+
+    .hero-card-footer i {
+      color: #10b981;
+    }
+
+    .section {
+      padding: 40px 10vw;
+    }
+
+    .section-header {
+      text-align: center;
+      margin-bottom: 24px;
+    }
+
+    .section-title {
+      font-size: 26px;
+      color: #111827;
+      margin-bottom: 8px;
+    }
+
+    .section-subtitle {
+      font-size: 14px;
+      color: #6b7280;
+    }
+
+    .features-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 18px;
+    }
+
+    .feature-card {
+      background-color: #ffffff;
+      border-radius: 18px;
+      padding: 18px;
+      box-shadow: 0 6px 18px rgba(15, 23, 42, 0.06);
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      transition: transform 0.15s ease, box-shadow 0.15s ease, border-color 0.15s ease;
+      border: 1px solid rgba(226, 232, 240, 0.9);
+    }
+
+    .feature-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 10px 24px rgba(15, 23, 42, 0.12);
+      border-color: rgba(59, 130, 246, 0.3);
+    }
+
+    .feature-icon {
+      width: 40px;
+      height: 40px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 20px;
+      background-color: #ecfdf5;
+      color: #059669;
+    }
+
+    .feature-title {
+      font-size: 16px;
+      font-weight: 600;
+      color: #111827;
+    }
+
+    .feature-text {
+      font-size: 13px;
+      color: #4b5563;
+    }
+
+    .testimonials {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 18px;
+      align-items: stretch;
+    }
+
+    .testimonial-card {
+      flex: 1 1 260px;
+      background-color: #ffffff;
+      border-radius: 18px;
+      padding: 18px;
+      box-shadow: 0 6px 18px rgba(15, 23, 42, 0.06);
+      border: 1px solid rgba(226, 232, 240, 0.9);
+      transition: transform 0.18s ease, box-shadow 0.18s ease, border-color 0.18s ease;
+    }
+
+    .testimonial-card:hover {
+      transform: translateY(-3px);
+      box-shadow: 0 12px 30px rgba(15, 23, 42, 0.14);
+      border-color: rgba(59, 130, 246, 0.3);
+    }
+
+    .testimonial-quote {
+      font-size: 14px;
+      color: #374151;
+      margin-bottom: 10px;
+    }
+
+    .testimonial-author {
+      font-size: 13px;
+      color: #6b7280;
+    }
+
+    .cta-section {
+      background: linear-gradient(135deg, #10b981, #14b8a6);
+      border-radius: 24px;
+      padding: 28px 24px;
+      color: #ecfdf5;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 12px;
+    }
+
+    .cta-title {
+      font-size: 22px;
+      margin-bottom: 4px;
+    }
+
+    .cta-text {
+      font-size: 14px;
+      color: #d1fae5;
+    }
+
+    .cta-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      align-items: center;
+    }
+
+    .cta-link {
+      font-size: 13px;
+      color: #ecfdf5;
+      text-decoration: underline;
+    }
+
+    .chatbot-toggle {
+      position: fixed;
+      right: 24px;
+      bottom: 24px;
+      z-index: 40;
+      width: 56px;
+      height: 56px;
+      border-radius: 999px;
+      background-color: #10b981;
+      color: #ffffff;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      box-shadow: 0 10px 30px rgba(16, 185, 129, 0.55);
+      cursor: pointer;
+      border: none;
+      transition: background-color 0.2s ease, box-shadow 0.2s ease, transform 0.1s ease;
+    }
+
+    .chatbot-toggle i {
+      font-size: 22px;
+    }
+
+    .chatbot-toggle:hover {
+      background-color: #059669;
+      box-shadow: 0 14px 36px rgba(16, 185, 129, 0.65);
+      transform: translateY(-1px);
+    }
+
+    .chatbot-toggle:active {
+      transform: translateY(0);
+      box-shadow: 0 8px 20px rgba(16, 185, 129, 0.45);
+    }
+
+    .chatbot-window {
+      position: fixed;
+      right: 24px;
+      bottom: 96px;
+      width: 320px;
+      max-width: calc(100vw - 32px);
+      background-color: #ffffff;
+      border-radius: 20px;
+      box-shadow: 0 18px 45px rgba(15, 23, 42, 0.35);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      z-index: 40;
+      border: 1px solid #e5e7eb;
+    }
+
+    .chatbot-header {
+      padding: 10px 14px;
+      background: linear-gradient(135deg, #10b981, #059669);
+      color: #ecfdf5;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .chatbot-header-left {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .chatbot-avatar {
+      width: 28px;
+      height: 28px;
+      border-radius: 999px;
+      background-color: #ecfdf5;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: #059669;
+      font-size: 15px;
+      font-weight: 700;
+    }
+
+    .chatbot-header-title {
+      font-size: 13px;
+      font-weight: 600;
+    }
+
+    .chatbot-header-subtitle {
+      font-size: 11px;
+      color: #d1fae5;
+    }
+
+    .chatbot-close {
+      background: transparent;
+      border: none;
+      color: #ecfdf5;
+      cursor: pointer;
+      font-size: 16px;
+    }
+
+    .chatbot-messages {
+      padding: 10px 12px;
+      height: 260px;
+      overflow-y: auto;
+      background-color: #f9fafb;
+    }
+
+    .chatbot-message {
+      margin-bottom: 8px;
+      display: flex;
+    }
+
+    .chatbot-message.bot {
+      justify-content: flex-start;
+    }
+
+    .chatbot-message.user {
+      justify-content: flex-end;
+    }
+
+    .chatbot-bubble {
+      max-width: 80%;
+      padding: 8px 10px;
+      border-radius: 14px;
+      font-size: 13px;
+      line-height: 1.35;
+    }
+
+    .chatbot-message.bot .chatbot-bubble {
+      background-color: #ffffff;
+      color: #111827;
+      border: 1px solid #e5e7eb;
+    }
+
+    .chatbot-message.user .chatbot-bubble {
+      background-color: #10b981;
+      color: #ecfdf5;
+      border-bottom-right-radius: 4px;
+    }
+
+    .chatbot-footer {
+      border-top: 1px solid #e5e7eb;
+      padding: 8px;
+      background-color: #f9fafb;
+    }
+
+    .chatbot-form {
+      display: flex;
+      gap: 6px;
+    }
+
+    .chatbot-input {
+      flex: 1;
+      padding: 7px 10px;
+      border-radius: 999px;
+      border: 1px solid #d1d5db;
+      font-size: 13px;
+    }
+
+    .chatbot-input:focus {
+      outline: none;
+      border-color: #10b981;
+      box-shadow: 0 0 0 1px #10b98133;
+    }
+
+    .chatbot-send-btn {
+      border-radius: 999px;
+      border: none;
+      background-color: #10b981;
+      color: #ffffff;
+      width: 32px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+    }
+
+    .chatbot-send-btn i {
+      font-size: 14px;
+    }
+
+    .hidden {
+      display: none;
+    }
+
+    .footer {
+      padding: 18px 10vw;
+      font-size: 13px;
+      color: #6b7280;
+      border-top: 1px solid #e5e7eb;
+      text-align: center;
+      background-color: #ffffff;
+    }
+
+    .navbar-account {
+      position: relative;
+      display: flex;
+      align-items: center;
+    }
+
+    .navbar-account-button {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 10px;
+      border-radius: 999px;
+      border: 1px solid #e5e7eb;
+      background-color: #f9fafb;
+      font-size: 13px;
+      font-weight: 500;
+      color: #374151;
+      cursor: pointer;
+    }
+
+    .navbar-account-button:hover {
+      background-color: #f3f4f6;
+    }
+
+    .navbar-account-avatar {
+      width: 24px;
+      height: 24px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, #10b981, #14b8a6);
+      color: #ecfdf5;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 12px;
+      font-weight: 600;
+    }
+
+    .navbar-account-label {
+      max-width: 120px;
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .navbar-account-chevron {
+      font-size: 10px;
+      color: #9ca3af;
+    }
+
+    .navbar-account-menu {
+      position: absolute;
+      right: 0;
+      top: calc(100% + 8px);
+      min-width: 180px;
+      background-color: #ffffff;
+      border-radius: 12px;
+      box-shadow: 0 12px 30px rgba(15, 23, 42, 0.18);
+      border: 1px solid #e5e7eb;
+      padding: 6px 0;
+      opacity: 0;
+      pointer-events: none;
+      transform: translateY(4px);
+      transition: opacity 0.16s ease-out, transform 0.16s ease-out;
+      z-index: 30;
+    }
+
+    .navbar-account-menu.open {
+      opacity: 1;
+      pointer-events: auto;
+      transform: translateY(0);
+    }
+
+    .navbar-account-menu a {
+      display: block;
+      padding: 7px 14px;
+      font-size: 13px;
+      color: #374151;
+    }
+
+    .navbar-account-menu a:hover {
+      background-color: #f9fafb;
+    }
+
+    @media (max-width: 768px) {
+      .hero {
+        padding: 56px 5vw 32px;
+      }
+
+      .navbar {
+        padding: 10px 16px;
+      }
+
+      .navbar-links {
+        gap: 8px;
+      }
+
+      .hero-title {
+        font-size: 30px;
+      }
+    }
+  </style>
+  <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+  <script defer src="{{ url_for('static', filename='js/chatbot.js') }}"></script>
+</head>
+
+  <body>
+  <header class="navbar">
+    <div class="navbar-left">
+      <a href="{% if session.get('user_id') %}{{ url_for('dashboard') }}{% else %}{{ url_for('index') }}{% endif %}" class="navbar-logo">MedSync</a>
+      <span class="navbar-tagline">Hospital Management Suite</span>
+    </div>
+    <nav class="navbar-links">
+      <a href="#features">Features</a>
+      <a href="#testimonials">Stories</a>
+      {% if session.get('user_id') %}
+        <a href="{{ url_for('dashboard') }}">Dashboard</a>
+        <div class="navbar-account">
+          <button type="button" class="navbar-account-button" id="navbar-account-trigger">
+            <div class="navbar-account-avatar">
+              {{ (session.get('user_full_name') or session.get('user_email') or 'A')[0]|upper }}
+            </div>
+            <span class="navbar-account-label">
+              {{ session.get('user_full_name') or session.get('user_email') or 'Account' }}
+            </span>
+            <i class="fa-solid fa-chevron-down navbar-account-chevron"></i>
+          </button>
+          <div class="navbar-account-menu" id="navbar-account-menu">
+            <a href="{{ url_for('account_profile_page') }}">
+              Profile
+            </a>
+            <a href="{{ url_for('account_settings_page') }}">
+              Settings
+            </a>
+            <a href="{{ url_for('logout_page') }}">
+              Sign out
+            </a>
+          </div>
+        </div>
+      {% else %}
+        <a href="{{ url_for('login_page') }}">Log in</a>
+        <button class="navbar-btn-primary" onclick="window.location='{{ url_for('signup_page') }}'">
+          Start free
+        </button>
+      {% endif %}
+    </nav>
+  </header>
+
+  <section class="hero">
+    <div class="hero-bubble"></div>
+    <div class="hero-bubble"></div>
+    <div class="hero-bubble"></div>
+    <div class="hero-text">
+      <div class="hero-kicker">Modern hospital operations</div>
+      <h1 class="hero-title">Run your hospital like a SaaS product.</h1>
+      <p class="hero-subtitle">
+        MedSync centralizes patients, doctors, rooms, medications and procedures in a single dashboard, with an
+        assistant that can help patients book appointments in seconds.
+      </p>
+      <div class="hero-actions">
+        {% if session.get('user_id') %}
+          <button class="navbar-btn-primary" onclick="window.location='{{ url_for('dashboard') }}'">
+            Go to dashboard
+          </button>
+        {% else %}
+          <button class="navbar-btn-primary" onclick="window.location='{{ url_for('signup_page') }}'">
+            Start in 2 minutes
+          </button>
+        {% endif %}
+        <button class="hero-btn-secondary" onclick="document.getElementById('chatbot-toggle').click()">
+          <i class="fa-solid fa-message"></i>
+          Chat with MedSync bot
+        </button>
+      </div>
+      <div class="hero-meta">
+        <strong>Built with Flask & SQLite</strong> �?� Ready to grow into multi-tenant SaaS.
+      </div>
+    </div>
+    <div class="hero-image">
+      <div class="hero-card">
+        <div class="hero-card-header">
+          <div class="hero-card-title">Today at a glance</div>
+          <div class="hero-card-tag">Live insights</div>
+        </div>
+        <div class="hero-metrics">
+          <div class="hero-metric">
+            <div class="hero-metric-label">Appointments</div>
+            <div class="hero-metric-value">42</div>
+            <div class="hero-metric-delta">+12 vs yesterday</div>
+          </div>
+          <div class="hero-metric">
+            <div class="hero-metric-label">Active patients</div>
+            <div class="hero-metric-value">318</div>
+            <div class="hero-metric-delta">+35 this week</div>
+          </div>
+        </div>
+        <div class="hero-card-footer">
+          <span><i class="fa-solid fa-shield-heart"></i> Role-based access</span>
+          <span>Audit ready</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="features" class="section">
+    <div class="section-header">
+      <h2 class="section-title">Everything in one connected system</h2>
+      <p class="section-subtitle">From admissions to procedures and prescriptions, MedSync ties it all together.</p>
+    </div>
+    <div class="features-grid">
+      <article class="feature-card">
+        <div class="feature-icon">
+          <i class="fa-solid fa-calendar-check"></i>
+        </div>
+        <h3 class="feature-title">Smart appointment scheduling</h3>
+        <p class="feature-text">
+          Let patients request or book appointments via the chatbot while staff keep control from the dashboard.
+        </p>
+      </article>
+      <article class="feature-card">
+        <div class="feature-icon">
+          <i class="fa-solid fa-file-medical"></i>
+        </div>
+        <h3 class="feature-title">Unified patient records</h3>
+        <p class="feature-text">
+          Manage details, insurance, visits, procedures and prescriptions all in one place.
+        </p>
+      </article>
+      <article class="feature-card">
+        <div class="feature-icon">
+          <i class="fa-solid fa-user-doctor"></i>
+        </div>
+        <h3 class="feature-title">Doctor & nurse roster</h3>
+        <p class="feature-text">
+          Track doctors, nursing staff, and department heads with clear relationships between teams and cases.
+        </p>
+      </article>
+      <article class="feature-card">
+        <div class="feature-icon">
+          <i class="fa-solid fa-pills"></i>
+        </div>
+        <h3 class="feature-title">Medications & prescriptions</h3>
+        <p class="feature-text">
+          Prescribe medication directly from patient records and see the full prescription history at a glance.
+        </p>
+      </article>
+      <article class="feature-card">
+        <div class="feature-icon">
+          <i class="fa-solid fa-hospital"></i>
+        </div>
+        <h3 class="feature-title">Rooms & procedures</h3>
+        <p class="feature-text">
+          Assign rooms, schedule procedures, and keep resource utilization under control.
+        </p>
+      </article>
+      <article class="feature-card">
+        <div class="feature-icon">
+          <i class="fa-solid fa-cloud-arrow-up"></i>
+        </div>
+        <h3 class="feature-title">SaaS-ready architecture</h3>
+        <p class="feature-text">
+          A clean Flask + REST API foundation ready to evolve into multi-tenant, production-grade SaaS.
+        </p>
+      </article>
+    </div>
+  </section>
+
+  <section id="testimonials" class="section">
+    <div class="section-header">
+      <h2 class="section-title">What teams could say</h2>
+      <p class="section-subtitle">Concept testimonials while we iterate towards a full SaaS release.</p>
+    </div>
+    <div class="testimonials">
+      <article class="testimonial-card">
+        <p class="testimonial-quote">
+          �?oMedSync has made it easier to keep track of rooms, procedures, and follow-ups. The dashboard gives us a live pulse."??
+        </p>
+        <p class="testimonial-author">�?" Operations manager (concept)</p>
+      </article>
+      <article class="testimonial-card">
+        <p class="testimonial-quote">
+          "?oThe appointment chatbot is a game changer. Patients can request visits 24/7 without adding load on reception."??
+        </p>
+        <p class="testimonial-author">�?" Outpatient lead (concept)</p>
+      </article>
+      <article class="testimonial-card">
+        <p class="testimonial-quote">
+          "?oHaving all entities �?" doctors, nurses, rooms, meds �?" stitched together lets us reason about the whole system."??
+        </p>
+        <p class="testimonial-author">�?" Product team (concept)</p>
+      </article>
+    </div>
+  </section>
+
+  <section class="section">
+    <div class="cta-section">
+      <div>
+        <h3 class="cta-title">Ready to try the live dashboard?</h3>
+        <p class="cta-text">
+          Jump into the existing management UI while we layer on the new experience and authentication.
+        </p>
+      </div>
+      <div class="cta-actions">
+        <button class="navbar-btn-primary" onclick="window.location='{{ url_for('dashboard') }}'">
+          Open dashboard
+        </button>
+        <a class="cta-link" href="https://medsync.pythonanywhere.com/" target="_blank" rel="noopener noreferrer">
+          View deployed demo
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <button id="chatbot-toggle" class="chatbot-toggle" type="button" aria-label="Open chatbot">
+    <i class="fa-solid fa-message"></i>
+  </button>
+
+  <section id="chatbot-window" class="chatbot-window hidden" aria-label="Appointment assistant">
+    <header class="chatbot-header">
+      <div class="chatbot-header-left">
+        <div class="chatbot-avatar">M</div>
+        <div>
+          <div class="chatbot-header-title">MedSync assistant</div>
+          <div class="chatbot-header-subtitle">Ask me to book an appointment</div>
+        </div>
+      </div>
+      <button class="chatbot-close" type="button" aria-label="Close chatbot">
+        <i class="fa-solid fa-xmark"></i>
+      </button>
+    </header>
+    <div id="chatbot-messages" class="chatbot-messages"></div>
+    <footer class="chatbot-footer">
+      <form id="chatbot-form" class="chatbot-form">
+        <input id="chatbot-input" class="chatbot-input" type="text" autocomplete="off"
+          placeholder="Type a message�?� e.g. �?�Book me an appointment�?T">
+        <button class="chatbot-send-btn" type="submit">
+          <i class="fa-solid fa-arrow-up"></i>
+        </button>
+      </form>
+    </footer>
+  </section>
+
+  <footer class="footer">
+    �� {{ 2025 }} MedSync. Hospital Management System. All rights reserved.
+  </footer>
+  <script>
+    (function () {
+      var trigger = document.getElementById('navbar-account-trigger');
+      var menu = document.getElementById('navbar-account-menu');
+      if (trigger && menu) {
+        trigger.addEventListener('click', function (e) {
+          e.stopPropagation();
+          menu.classList.toggle('open');
+        });
+        document.addEventListener('click', function () {
+          menu.classList.remove('open');
+        });
+      }
+    })();
+  </script>
+</body>
+
+</html>

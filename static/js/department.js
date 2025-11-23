@@ -75,17 +75,25 @@ $(document).ready(function () {
                 'paging': true, // Table pagination
                 'ordering': true, // Column ordering
                 'info': true, // Bottom left status text
+                'bLengthChange': false,
+                "iDisplayLength": 10,
                 aaData: response,
                 "aaSorting": [],
+                language: {
+                    search: "",
+                    searchPlaceholder: "Search departments..."
+                },
                 aoColumns: [
                     {
-                        mData: 'department_id'
+                        mData: 'department_id',
+                        sClass: 'cell-id'
                     },
                     {
                         mData: 'name'
                     },
                     {
-                        mData: 'head_id'
+                        mData: 'head_id',
+                        sClass: 'cell-id'
                     },
                     {
                         mData: 'doc_first_name'
@@ -96,7 +104,8 @@ $(document).ready(function () {
                     {
                         mRender: function (o) {
                             return '<button class="btn-xs btn btn-info btn-edit" type="button">Edit</button>';
-                        }
+                        },
+                        sClass: 'cell-actions'
                     }
                 ]
             });
